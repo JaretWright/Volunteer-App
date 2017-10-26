@@ -51,7 +51,12 @@
                         <DatePicker fx:id="birthday" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <ImageView fx:id="imageView" fitHeight="185.0" fitWidth="268.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <ImageView fx:id="imageView" fitHeight="185.0" fitWidth="268.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button mnemonicParsing="false" onAction="#chooseImageButtonPushed" text="Change Image" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <Label fx:id="errMsgLabel" text="Label" />
