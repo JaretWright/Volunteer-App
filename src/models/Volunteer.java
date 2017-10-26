@@ -25,6 +25,7 @@ public class Volunteer {
     private String firstName, lastName, phoneNumber;
     private LocalDate birthday;
     private File imageFile;
+    private int volunteerID;
 
     public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday) {
         setFirstName(firstName);
@@ -38,6 +39,17 @@ public class Volunteer {
         this(firstName, lastName, phoneNumber, birthday);
         setImageFile(imageFile);
         copyImageFile();
+    }
+
+    public int getVolunteerID() {
+        return volunteerID;
+    }
+
+    public void setVolunteerID(int volunteerID) {
+        if (volunteerID >= 0)
+            this.volunteerID = volunteerID;
+        else
+            throw new IllegalArgumentException("VolunteerID must be >= 0");
     }
     
     
