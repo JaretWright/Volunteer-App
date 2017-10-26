@@ -2,6 +2,7 @@
 package views;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -34,8 +36,14 @@ public class VolunteerTableViewController implements Initializable {
     @FXML private TableColumn<Volunteer, LocalDate> birthdayColumn;
     
     
-    
-    
+    /**
+     * This method will switch to the NewUserView scene when the button is pushed
+     */
+    public void newVolunteerButtonPushed(ActionEvent event) throws IOException
+    {
+        SceneChanger sc = new SceneChanger();
+        sc.changeScenes(event, "NewUserView.fxml", "Create New Volunteer");
+    }
     
     /**
      * Initializes the controller class.

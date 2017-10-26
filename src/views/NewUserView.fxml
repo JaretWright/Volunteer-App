@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="views.NewUserViewController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.NewUserViewController">
     <stylesheets>
         <URL value="@volunteer.css" />
     </stylesheets>
@@ -60,11 +60,12 @@
                </children>
             </HBox>
             <Label fx:id="errMsgLabel" text="Label" />
-            <AnchorPane prefHeight="91.0" prefWidth="760.0">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <Button layoutX="681.0" layoutY="46.0" mnemonicParsing="false" onAction="#saveVolunteerButtonPushed" text="Save" />
+                  <Button mnemonicParsing="false" onAction="#saveVolunteerButtonPushed" text="Save" />
+                  <Button mnemonicParsing="false" onAction="#cancelButtonPushed" text="Cancel" />
                </children>
-            </AnchorPane>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

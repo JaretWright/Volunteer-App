@@ -39,6 +39,15 @@ public class NewUserViewController implements Initializable {
     private File imageFile;
     private boolean imageFileChanged;
     
+    /**
+     * This method will change back to the TableView of volunteers without adding
+     * a user.  All data in the form will be lost
+     */
+    public void cancelButtonPushed(ActionEvent event) throws IOException
+    {
+        SceneChanger sc = new SceneChanger();
+        sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
+    }
     
     /**
      * When this button is pushed, a FileChooser object is launched to allow the user
@@ -143,6 +152,8 @@ public class NewUserViewController implements Initializable {
             }
             errMsgLabel.setText("");    //do not show errors if creating Volunteer was successful
             volunteer.insertIntoDB();
+            SceneChanger sc = new SceneChanger();
+            sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
         }
         catch (Exception e)
         {
