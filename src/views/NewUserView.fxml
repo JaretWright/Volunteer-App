@@ -22,7 +22,7 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="8.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Create New User">
+            <Label fx:id="headerLabel" text="Create New User">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>

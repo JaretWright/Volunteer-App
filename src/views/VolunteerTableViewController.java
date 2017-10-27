@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,6 +36,24 @@ public class VolunteerTableViewController implements Initializable {
     @FXML private TableColumn<Volunteer, String> phoneColumn;
     @FXML private TableColumn<Volunteer, LocalDate> birthdayColumn;
     
+    @FXML private Button editVolunteerButton;
+    
+    
+  
+    /**
+     * If the edit button is pushed, pass the selected Volunteer to the NewUserView 
+     * and preload it with the data
+     */
+    public void editButtonPushed(ActionEvent event) throws IOException
+    {
+        SceneChanger sc = new SceneChanger();
+        Volunteer volunteer = this.volunteerTable.getSelectionModel().getSelectedItem();
+        NewUserViewController npvc = new NewUserViewController();
+        
+        sc.changeScenes(event, "NewUserView.fxml", "Edit Volunteer", volunteer, npvc );
+    }
+    
+    
     
     /**
      * This method will switch to the NewUserView scene when the button is pushed
@@ -50,6 +69,9 @@ public class VolunteerTableViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //disable the edit button until a volunteer has been selected from the table
+        editVolunteerButton.setDisable(true);
+        
         // confgure the table columns
         volunterIDColumn.setCellValueFactory(new PropertyValueFactory<Volunteer, Integer>("volunteerID"));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<Volunteer, String>("firstName"));
@@ -116,4 +138,12 @@ public class VolunteerTableViewController implements Initializable {
         }
     }
     
+    
+    /**
+     * If a user has been selected in the table, enable the edit button
+     */
+    public void volunteerSelected()
+    {
+        editVolunteerButton.setDisable(false);
+    }
 }

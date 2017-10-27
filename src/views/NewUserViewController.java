@@ -27,17 +27,19 @@ import models.Volunteer;
  *
  * @author jaret_000
  */
-public class NewUserViewController implements Initializable {
+public class NewUserViewController implements Initializable, ControllerClass {
 
     @FXML private TextField firstNameTextField;
     @FXML private TextField lastNameTextField;
     @FXML private TextField phoneTextField;
     @FXML private DatePicker birthday;
     @FXML private Label errMsgLabel;
+    @FXML private Label headerLabel;
     @FXML private ImageView imageView;
     
     private File imageFile;
     private boolean imageFileChanged;
+    private Volunteer volunteer;
     
     /**
      * This method will change back to the TableView of volunteers without adding
@@ -139,19 +141,27 @@ public class NewUserViewController implements Initializable {
     {
         try
         {
-            Volunteer volunteer;
-            if (imageFileChanged)
+            if (volunteer != null) //we need to edit/update an existing volunteer
             {
-                volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
-                                                phoneTextField.getText(), birthday.getValue(), imageFile);
+                updateVolunteer();
+                volunteer.updateVolunteerInDB();
             }
-            else
+            else    //we need to create a new volunteer
             {
-                volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
-                                                phoneTextField.getText(), birthday.getValue());
+                if (imageFileChanged)
+                {
+                    volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
+                                                    phoneTextField.getText(), birthday.getValue(), imageFile);
+                }
+                else
+                {
+                    volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
+                                                    phoneTextField.getText(), birthday.getValue());
+                }
+                errMsgLabel.setText("");    //do not show errors if creating Volunteer was successful
+                volunteer.insertIntoDB();    
             }
-            errMsgLabel.setText("");    //do not show errors if creating Volunteer was successful
-            volunteer.insertIntoDB();
+            
             SceneChanger sc = new SceneChanger();
             sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
         }
@@ -160,6 +170,45 @@ public class NewUserViewController implements Initializable {
             errMsgLabel.setText(e.getMessage());
         }
     }
+
     
+    /**
+     * This method will update the view with a Volunteer object preloaded for an edit
+     * @param volunteer 
+     */
+    @Override
+    public void preloadData(Volunteer volunteer) {
+        this.volunteer = volunteer;
+        this.firstNameTextField.setText(volunteer.getFirstName());
+        this.lastNameTextField.setText(volunteer.getLastName());
+        this.birthday.setValue(volunteer.getBirthday());
+        this.phoneTextField.setText(volunteer.getPhoneNumber());
+        this.headerLabel.setText("Edit Volunteer");
+        
+        //load the image 
+        try{
+            String imgLocation = ".\\src\\images\\" + volunteer.getImageFile().getName();
+            imageFile = new File(imgLocation);
+            BufferedImage bufferedImage = ImageIO.read(imageFile);
+            Image img = SwingFXUtils.toFXImage(bufferedImage, null);
+            imageView.setImage(img);
+        }
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
     
-}
+    /**
+     * This method will read from the GUI fields and update the volunteer object
+     */
+    public void updateVolunteer() throws IOException
+    {
+        volunteer.setFirstName(firstNameTextField.getText());
+        volunteer.setLastName(lastNameTextField.getText());
+        volunteer.setPhoneNumber(phoneTextField.getText());
+        volunteer.setBirthday(birthday.getValue());
+        volunteer.setImageFile(imageFile);
+        volunteer.copyImageFile();
+    }
+   }

@@ -18,7 +18,7 @@
       <VBox alignment="CENTER" layoutX="325.0" layoutY="185.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label text="List of Volunteers" />
-            <TableView fx:id="volunteerTable" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="volunteerTable" onMouseClicked="#volunteerSelected" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="volunterIDColumn" prefWidth="102.0" text="Volunteer ID" />
                 <TableColumn fx:id="firstNameColumn" prefWidth="200.0" text="First Name" />
@@ -29,7 +29,8 @@
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" text="Create New Volunteer" />
+                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefWidth="170.0" text="Create New Volunteer" />
+                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="170.0" text="Edit Volunteer" />
               </items>
             </ToolBar>
          </children>

@@ -260,6 +260,56 @@ public class Volunteer {
             if (conn != null)
                 conn.close();
         }
+    }
+    
+    
+    /**
+     * This will update the Volunteer in the database
+     */
+    public void updateVolunteerInDB() throws SQLException
+    {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        
+        try{
+            //1.  connect to the DB
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer", "student", "student");
+            
+            //2.  create a String that holds our SQL update command with ? for user inputs
+            String sql = "UPDATE volunteers SET firstName = ?, lastName = ?, phoneNumber=?, birthday = ?, imageFile = ?"
+                    + "WHERE volunteerID = ?";
+            
+            //3. prepare the query against SQL injection
+            preparedStatement = conn.prepareStatement(sql);
+            
+            //4.  convert the birthday into a date object
+            Date bd = Date.valueOf(birthday);
+            
+            //5. bind the parameters
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, phoneNumber);
+            preparedStatement.setDate(4, bd);
+            preparedStatement.setString(5, imageFile.getName());
+            preparedStatement.setInt(6, volunteerID);
+            
+            //6. run the command on the SQL server
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            if (conn != null)
+                conn.close();
+            if (preparedStatement != null)
+                preparedStatement.close();
+        }
         
     }
+    
+ 
 }
