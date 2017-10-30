@@ -148,12 +148,12 @@ public class NewUserViewController implements Initializable, ControllerClass {
             }
             else    //we need to create a new volunteer
             {
-                if (imageFileChanged)
+                if (imageFileChanged) //create a Volunteer with a custom image
                 {
                     volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
                                                     phoneTextField.getText(), birthday.getValue(), imageFile);
                 }
-                else
+                else  //create a Volunteer with a default image
                 {
                     volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
                                                     phoneTextField.getText(), birthday.getValue());
