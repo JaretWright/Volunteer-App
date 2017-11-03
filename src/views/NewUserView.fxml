@@ -23,17 +23,17 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="8.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="headerLabel" text="Create New User">
+            <Label fx:id="headerLabel" styleClass="header" text="Create New User">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" prefHeight="232.0" prefWidth="760.0" spacing="20.0">
+            <HBox alignment="CENTER" prefHeight="325.0" prefWidth="760.0" spacing="20.0">
                <children>
-                  <GridPane prefHeight="232.0" prefWidth="344.0">
+                  <GridPane prefHeight="268.0" prefWidth="344.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="131.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.0" minWidth="10.0" prefWidth="213.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="177.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.0" minWidth="10.0" prefWidth="167.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

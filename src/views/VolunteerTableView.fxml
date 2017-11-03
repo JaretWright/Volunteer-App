@@ -6,33 +6,33 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="views.VolunteerTableViewController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.VolunteerTableViewController">
     <stylesheets>
         <URL value="@volunteer.css" />
     </stylesheets>
    <children>
       <VBox alignment="CENTER" layoutX="325.0" layoutY="185.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="List of Volunteers" />
+            <Label styleClass="header" text="List of Volunteers" />
             <TableView fx:id="volunteerTable" onMouseClicked="#volunteerSelected" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="volunterIDColumn" prefWidth="102.0" text="Volunteer ID" />
-                <TableColumn fx:id="firstNameColumn" prefWidth="200.0" text="First Name" />
+                <TableColumn fx:id="volunterIDColumn" prefWidth="144.0" text="Volunteer ID" />
+                <TableColumn fx:id="firstNameColumn" prefWidth="158.0" text="First Name" />
                   <TableColumn fx:id="lastNameColumn" prefWidth="200.0" text="Last Name" />
                   <TableColumn fx:id="phoneColumn" prefWidth="119.0" text="Phone " />
                   <TableColumn fx:id="birthdayColumn" prefWidth="125.0" text="Birthday" />
               </columns>
             </TableView>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
-              <items>
-                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefWidth="170.0" text="Create New Volunteer" />
-                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="170.0" text="Edit Volunteer" />
-              </items>
-            </ToolBar>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefHeight="47.0" prefWidth="250.0" text="Create New Volunteer" />
+                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="250.0" text="Edit Volunteer" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

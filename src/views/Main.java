@@ -23,7 +23,7 @@ public class Main extends Application{
         
         Scene scene = new Scene(root);
         
-        primaryStage.setTitle("New Volunteer");
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

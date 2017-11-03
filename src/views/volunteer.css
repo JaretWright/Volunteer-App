@@ -5,3 +5,23 @@
 .mainFxmlClass {
 
 }
+
+.button{
+    -fx-font-size: 16pt;
+    -fx-effect: dropshadow(one-pass-box, black, 8, 0.0, 5, 0);
+}
+
+.label{
+    -fx-font-size: 16pt;
+}
+
+.text-field{
+    -fx-font-size: 16pt;
+    -fx-font-style: italic;
+   
+}
+
+.header{
+    -fx-font-size: 36pt;
+}
+
