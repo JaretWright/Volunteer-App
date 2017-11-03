@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -22,23 +23,35 @@ import java.time.Period;
  * @author jaret_000
  */
 public class Volunteer {
-    private String firstName, lastName, phoneNumber;
+    private String firstName, lastName, phoneNumber, password;
     private LocalDate birthday;
     private File imageFile;
     private int volunteerID;
+    private byte[] salt;
 
-    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday) {
+    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, String password) throws NoSuchAlgorithmException {
         setFirstName(firstName);
         setLastName(lastName);
         setPhoneNumber(phoneNumber);
         setBirthday(birthday);
         setImageFile(new File("./src/images/defaultPerson.png"));
+        salt = PasswordGenerator.getSalt();
+        this.password = PasswordGenerator.getSHA512Password(password, salt);
+        //System.out.printf("PW: %s%n", password);
     }
 
-    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, File imageFile) throws IOException {
-        this(firstName, lastName, phoneNumber, birthday);
+    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, File imageFile, String password) throws IOException, NoSuchAlgorithmException {
+        this(firstName, lastName, phoneNumber, birthday, password);
         setImageFile(imageFile);
         copyImageFile();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public byte[] getSalt() {
+        return salt;
     }
 
     public int getVolunteerID() {
@@ -230,8 +243,8 @@ public class Volunteer {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer", "student", "student");
             
             //2. Create a String that holds the query with ? as user inputs
-            String sql = "INSERT INTO volunteers (firstName, lastName, phoneNumber, birthday, imageFile)"
-                    + "VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO volunteers (firstName, lastName, phoneNumber, birthday, imageFile, password, salt)"
+                    + "VALUES (?,?,?,?,?,?,?)";
                     
             //3. prepare the query
             preparedStatement = conn.prepareStatement(sql);
@@ -245,6 +258,8 @@ public class Volunteer {
             preparedStatement.setString(3, phoneNumber);
             preparedStatement.setDate(4, db);
             preparedStatement.setString(5, imageFile.getName());
+            preparedStatement.setString(6, password);
+            preparedStatement.setBlob(7, new javax.sql.rowset.serial.SerialBlob(salt));
             
             preparedStatement.executeUpdate();
         }

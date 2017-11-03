@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +41,12 @@ public class NewUserViewController implements Initializable, ControllerClass {
     private File imageFile;
     private boolean imageFileChanged;
     private Volunteer volunteer;
+    
+    //used for the passwords
+    @FXML private PasswordField pwField;
+    @FXML private PasswordField confirmPwField;
+    
+    
     
     /**
      * This method will change back to the TableView of volunteers without adding
@@ -139,38 +146,60 @@ public class NewUserViewController implements Initializable, ControllerClass {
      */
     public void saveVolunteerButtonPushed(ActionEvent event)
     {
-        try
+        if (validPassword())
         {
-            if (volunteer != null) //we need to edit/update an existing volunteer
+            try
             {
-                updateVolunteer();
-                volunteer.updateVolunteerInDB();
+                if (volunteer != null) //we need to edit/update an existing volunteer
+                {
+                    updateVolunteer();
+                    volunteer.updateVolunteerInDB();
+                }
+                else    //we need to create a new volunteer
+                {
+                    if (imageFileChanged) //create a Volunteer with a custom image
+                    {
+                        volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
+                                                        phoneTextField.getText(), birthday.getValue(), imageFile, 
+                                                        pwField.getText());
+                    }
+                    else  //create a Volunteer with a default image
+                    {
+                        volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
+                                                        phoneTextField.getText(), birthday.getValue(), 
+                                                        pwField.getText());
+                    }
+                    errMsgLabel.setText("");    //do not show errors if creating Volunteer was successful
+                    volunteer.insertIntoDB();    
+                }
+
+                SceneChanger sc = new SceneChanger();
+                sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
             }
-            else    //we need to create a new volunteer
+            catch (Exception e)
             {
-                if (imageFileChanged) //create a Volunteer with a custom image
-                {
-                    volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
-                                                    phoneTextField.getText(), birthday.getValue(), imageFile);
-                }
-                else  //create a Volunteer with a default image
-                {
-                    volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
-                                                    phoneTextField.getText(), birthday.getValue());
-                }
-                errMsgLabel.setText("");    //do not show errors if creating Volunteer was successful
-                volunteer.insertIntoDB();    
+                errMsgLabel.setText(e.getMessage());
             }
-            
-            SceneChanger sc = new SceneChanger();
-            sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
-        }
-        catch (Exception e)
-        {
-            errMsgLabel.setText(e.getMessage());
         }
     }
-
+    
+    /**
+     * This method will validate that the passwords match
+     * 
+     */
+    public boolean validPassword()
+    {
+        if (pwField.getText().length() < 5)
+        {
+            errMsgLabel.setText("Passwords must be greater than 5 characters in length");
+            return false;
+        }
+        
+        if (pwField.getText().equals(confirmPwField.getText()))
+            return true;
+        else
+            return false;
+    }
     
     /**
      * This method will update the view with a Volunteer object preloaded for an edit

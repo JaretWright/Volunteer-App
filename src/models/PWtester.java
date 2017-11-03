@@ -15,7 +15,5 @@ public class PWtester {
         
         System.out.printf("password: %s%n", PasswordGenerator.getSHA512Password(password, salt));
         System.out.printf("password: %s%n", PasswordGenerator.getSHA512Password(password, salt));
-        
-        
     }
 }
