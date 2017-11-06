@@ -326,5 +326,61 @@ public class Volunteer {
         
     }
     
- 
+    /**
+     * This method will record the hours worked for the volunteer.
+     * @param dateWorked - must be in the current year and previous the current date
+     * @param hoursWorked - must be less than 18 hours
+     */
+    public void logHours(LocalDate dateWorked, int hoursWorked) throws SQLException 
+    {
+        //validate the date is today or earlier
+        if (dateWorked.isAfter(LocalDate.now()))
+            throw new IllegalArgumentException("Date worked cannot be in the future");
+        
+        if (dateWorked.isBefore(LocalDate.now().minusYears(1)))
+            throw new IllegalArgumentException("Date worked must be within the last 12 months");
+        
+        //validate the hours worked
+        if (hoursWorked < 0 || hoursWorked > 18)
+            throw new IllegalArgumentException("Hours worked must be in the range of 0-18");
+            
+        //ready to store in the database
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try{
+            //1. connect to the database
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer", "student", "student");
+            
+            //2. create a preparedStatement
+            String sql = "INSERT INTO hoursWorked (volunteerID, dateWorked, hoursworked) VALUES (?,?,?);";
+            
+            //3.  prepare the query
+            ps = conn.prepareStatement(sql);
+            
+            //4.  convert the localdate to sql date
+            Date dw = Date.valueOf(dateWorked);
+            
+            //5.  bind the parameters
+            ps.setInt(1, volunteerID);
+            ps.setDate(2, dw);
+            ps.setInt(3, hoursWorked);
+            
+            //6.  execute the update  
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            if (conn != null)
+                conn.close();
+            if (ps != null)
+                ps.close();
+        }
+    }
+    
+   
 }

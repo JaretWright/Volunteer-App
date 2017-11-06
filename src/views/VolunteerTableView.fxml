@@ -29,8 +29,9 @@
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefHeight="47.0" prefWidth="250.0" text="Create New Volunteer" />
-                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="250.0" text="Edit Volunteer" />
+                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefHeight="0.0" prefWidth="250.0" text="Create New Volunteer" />
+                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefHeight="0.0" prefWidth="250.0" text="Edit Volunteer" />
+                  <Button fx:id="logHoursButton" mnemonicParsing="false" onAction="#logHoursButtonPushed" prefHeight="0.0" prefWidth="250.0" text="Log Hours" />
                </children>
             </HBox>
          </children>

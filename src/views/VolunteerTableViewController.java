@@ -37,6 +37,7 @@ public class VolunteerTableViewController implements Initializable {
     @FXML private TableColumn<Volunteer, LocalDate> birthdayColumn;
     
     @FXML private Button editVolunteerButton;
+    @FXML private Button logHoursButton;
     
     
   
@@ -71,6 +72,8 @@ public class VolunteerTableViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //disable the edit button until a volunteer has been selected from the table
         editVolunteerButton.setDisable(true);
+        logHoursButton.setDisable(true);
+        
         
         // confgure the table columns
         volunterIDColumn.setCellValueFactory(new PropertyValueFactory<Volunteer, Integer>("volunteerID"));
@@ -141,6 +144,21 @@ public class VolunteerTableViewController implements Initializable {
         }
     }
     
+    /**
+     * This method will call up the loghours view
+     */
+    public void logHoursButtonPushed(ActionEvent event) throws IOException
+    {
+        SceneChanger sc = new SceneChanger();
+        
+        //this gets the volunteer from the table
+        Volunteer volunteer = this.volunteerTable.getSelectionModel().getSelectedItem();
+        if (volunteer == null)
+            return;
+        
+        LogHoursViewController lhvc = new LogHoursViewController();
+        sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", volunteer, lhvc);
+    }
     
     /**
      * If a user has been selected in the table, enable the edit button
@@ -148,5 +166,6 @@ public class VolunteerTableViewController implements Initializable {
     public void volunteerSelected()
     {
         editVolunteerButton.setDisable(false);
+        logHoursButton.setDisable(false);
     }
 }
