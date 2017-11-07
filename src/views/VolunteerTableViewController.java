@@ -161,6 +161,17 @@ public class VolunteerTableViewController implements Initializable {
     }
     
     /**
+     * Change scenes to the monthly report view when pushed
+     */
+    public void monthlyHoursButtonPushed(ActionEvent event) throws IOException
+    {
+        SceneChanger sc = new SceneChanger();
+        sc.changeScenes(event, "MonthlyHoursView.fxml", "View Hours");
+    }
+    
+    
+    
+    /**
      * If a user has been selected in the table, enable the edit button
      */
     public void volunteerSelected()

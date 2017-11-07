@@ -25,3 +25,6 @@
     -fx-font-size: 36pt;
 }
 
+.chart-bar{
+   -fx-bar-fill: blue;
+}

@@ -27,11 +27,16 @@
                   <TableColumn fx:id="birthdayColumn" prefWidth="125.0" text="Birthday" />
               </columns>
             </TableView>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <HBox prefHeight="58.0" prefWidth="760.0" spacing="20.0">
                <children>
-                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefHeight="0.0" prefWidth="250.0" text="Create New Volunteer" />
-                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefHeight="0.0" prefWidth="250.0" text="Edit Volunteer" />
-                  <Button fx:id="logHoursButton" mnemonicParsing="false" onAction="#logHoursButtonPushed" prefHeight="0.0" prefWidth="250.0" text="Log Hours" />
+                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefHeight="0.0" prefWidth="240.0" text="Create New Volunteer" />
+                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefHeight="0.0" prefWidth="240.0" text="Edit Volunteer" />
+                  <Button fx:id="logHoursButton" mnemonicParsing="false" onAction="#logHoursButtonPushed" prefHeight="0.0" prefWidth="240.0" text="Log Hours" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#monthlyHoursButtonPushed" prefWidth="240.0" text="View Hours" />
                </children>
             </HBox>
          </children>
