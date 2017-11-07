@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import models.Volunteer;
 
@@ -21,7 +23,7 @@ import models.Volunteer;
  */
 public class LogHoursViewController implements Initializable, ControllerClass {
     @FXML    private DatePicker datePicker;
-    @FXML    private TextField hoursWorkedTextField;
+    @FXML    private Spinner hoursWorkedSpinner;
     @FXML    private Label volunteerIDLabel;
     @FXML    private Label firstNameLabel;
     @FXML    private Label lastNameLabel;
@@ -34,7 +36,9 @@ public class LogHoursViewController implements Initializable, ControllerClass {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        SpinnerValueFactory<Integer> valueFactory = 
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0,18,8);
+        hoursWorkedSpinner.setValueFactory(valueFactory);
     }    
 
     @Override
@@ -44,7 +48,6 @@ public class LogHoursViewController implements Initializable, ControllerClass {
         firstNameLabel.setText(volunteer.getFirstName());
         lastNameLabel.setText(volunteer.getLastName());
         datePicker.setValue(LocalDate.now());
-        hoursWorkedTextField.setText("8");
         errMsgLabel.setText("");
     }
     
@@ -55,8 +58,7 @@ public class LogHoursViewController implements Initializable, ControllerClass {
     public void saveButtonPushed(ActionEvent event)
     {
         try{
-            volunteer.logHours(datePicker.getValue(), 
-                        Integer.parseInt(hoursWorkedTextField.getText()));
+            volunteer.logHours(datePicker.getValue(), (int) hoursWorkedSpinner.getValue());           
         }
         catch (SQLException e)
         {
@@ -76,6 +78,5 @@ public class LogHoursViewController implements Initializable, ControllerClass {
     {
         SceneChanger sc = new SceneChanger();
         sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
-        
     }
 }
