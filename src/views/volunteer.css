@@ -25,6 +25,16 @@
     -fx-font-size: 36pt;
 }
 
+/*
 .chart-bar{
    -fx-bar-fill: blue;
+} */
+
+.default-color0.chart-bar {
+    -fx-bar-fill: blue;
 }
+
+.default-color1.chart-bar {
+    -fx-bar-fill: green;
+}
+

@@ -1,13 +1,16 @@
 
 package views;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -26,18 +29,23 @@ public class MonthlyHoursViewController implements Initializable {
     @FXML    private CategoryAxis months;
     @FXML    private NumberAxis hoursWorked;
     
-    private XYChart.Series series;
+    private XYChart.Series currentYearSeries, previousYearSeries;
+    
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        series = new XYChart.Series<>();
+        currentYearSeries = new XYChart.Series<>();
+        previousYearSeries = new XYChart.Series<>();
         
         //barChart.setTitle("Hours Worked");
         months.setLabel("Months");
         hoursWorked.setLabel("Hours worked");
+        
+        currentYearSeries.setName(Integer.toString(LocalDate.now().getYear()));
+        previousYearSeries.setName(Integer.toString(LocalDate.now().getYear()-1));
         
         try{
             populateSeriesFromDB();
@@ -47,7 +55,8 @@ public class MonthlyHoursViewController implements Initializable {
             System.err.println(e);
         }
         
-        barChart.getData().addAll(series);
+        barChart.getData().addAll(previousYearSeries);
+        barChart.getData().addAll(currentYearSeries);
     }    
     
     /**
@@ -71,7 +80,8 @@ public class MonthlyHoursViewController implements Initializable {
             //3.  create a string with the sql statement
             String sql = "SELECT YEAR(dateWorked), MONTHNAME(dateWorked), SUM(hoursworked) " +
                          "FROM hoursworked " +
-                         "GROUP BY YEAR(dateWorked), MONTH(dateWorked);";
+                         "GROUP BY YEAR(dateWorked), MONTH(dateWorked)" +
+                         "ORDER BY YEAR(dateWorked), MONTH(dateWorked);";
             
             //4. execute the query
             resultSet = statement.executeQuery(sql);
@@ -79,7 +89,10 @@ public class MonthlyHoursViewController implements Initializable {
             //5.  loop over the result set and add to our series
             while (resultSet.next())
             {
-                series.getData().add(new XYChart.Data(resultSet.getString(2), resultSet.getInt(3)));
+                if (resultSet.getInt(1) == LocalDate.now().getYear())
+                    currentYearSeries.getData().add(new XYChart.Data(resultSet.getString(2), resultSet.getInt(3)));
+                else if (resultSet.getInt(1) == LocalDate.now().getYear()-1)
+                    previousYearSeries.getData().add(new XYChart.Data(resultSet.getString(2), resultSet.getInt(3)));    
             }       
         }
         catch (SQLException e)
@@ -95,6 +108,16 @@ public class MonthlyHoursViewController implements Initializable {
             if (resultSet != null)
                 resultSet.close();
         }
+    }
+    
+    
+    /**
+     * This method will return the scene to the VolunteerTableView
+     */
+    public void backButtonPushed(ActionEvent event) throws IOException
+    {
+        SceneChanger sc = new SceneChanger();
+        sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
     }
     
 }
