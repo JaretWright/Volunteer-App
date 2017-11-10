@@ -37,7 +37,7 @@ public class Volunteer {
         setImageFile(new File("./src/images/defaultPerson.png"));
         salt = PasswordGenerator.getSalt();
         this.password = PasswordGenerator.getSHA512Password(password, salt);
-        //System.out.printf("PW: %s%n", password);
+       
     }
 
     public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, File imageFile, String password) throws IOException, NoSuchAlgorithmException {
