@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="views.LogHoursViewController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LogHoursViewController">
     <stylesheets>
         <URL value="@volunteer.css" />
     </stylesheets>
@@ -50,7 +50,7 @@
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#saveButtonPushed" text="Log Hours" />
-                  <Button mnemonicParsing="false" onAction="#cancelButttonPushed" text="Back" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#cancelButttonPushed" text="Back" />
                </children>
             </HBox>
          </children>

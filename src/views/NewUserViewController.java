@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -37,6 +38,8 @@ public class NewUserViewController implements Initializable, ControllerClass {
     @FXML private Label errMsgLabel;
     @FXML private Label headerLabel;
     @FXML private ImageView imageView;
+    @FXML private CheckBox adminCheckBox;
+    
     
     private File imageFile;
     private boolean imageFileChanged;
@@ -55,7 +58,15 @@ public class NewUserViewController implements Initializable, ControllerClass {
     public void cancelButtonPushed(ActionEvent event) throws IOException
     {
         SceneChanger sc = new SceneChanger();
-        sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
+        
+        //check if it is an admin user and go to the table view
+        if (SceneChanger.getLoggedInUser().isAdmin())
+            sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
+        else
+        {
+            LogHoursViewController controller = new LogHoursViewController();
+            sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", volunteer, controller);
+        }
     }
     
     /**
@@ -161,13 +172,14 @@ public class NewUserViewController implements Initializable, ControllerClass {
                     {
                         volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
                                                         phoneTextField.getText(), birthday.getValue(), imageFile, 
-                                                        pwField.getText());
+                                                        adminCheckBox.isSelected(),pwField.getText());
                     }
                     else  //create a Volunteer with a default image
                     {
                         volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
                                                         phoneTextField.getText(), birthday.getValue(), 
-                                                        pwField.getText());
+                                                        pwField.getText(),
+                                                        adminCheckBox.isSelected());
                     }
                     errMsgLabel.setText("");    //do not show errors if creating Volunteer was successful
                     volunteer.insertIntoDB();    

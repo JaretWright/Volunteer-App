@@ -79,10 +79,10 @@ public class LoginViewController implements Initializable {
                                                        resultSet.getString("lastName"),
                                                        resultSet.getString("phoneNumber"),
                                                        resultSet.getDate("birthday").toLocalDate(),
-                                                       resultSet.getString("password"));
+                                                       resultSet.getString("password"),
+                                                       resultSet.getBoolean("admin"));
                 volunteer.setVolunteerID(resultSet.getInt("VolunteerID"));
-                volunteer.setImageFile(new File(resultSet.getString("imageFile")));
-                
+                volunteer.setImageFile(new File(resultSet.getString("imageFile")));  
             }
             
             //convert the password given by the user into an encryted password
@@ -90,6 +90,9 @@ public class LoginViewController implements Initializable {
             String userPW = PasswordGenerator.getSHA512Password(pwField.getText(), salt);
             
             SceneChanger sc = new SceneChanger();
+            
+            if (userPW.equals(dbPassword))
+                SceneChanger.setLoggedInUser(volunteer);
             
             //if the passwords match - change to the VolunteerTableView
             if (userPW.equals(dbPassword) && admin)

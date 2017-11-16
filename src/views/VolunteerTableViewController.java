@@ -120,7 +120,8 @@ public class VolunteerTableViewController implements Initializable {
                                                        resultSet.getString("lastName"),
                                                        resultSet.getString("phoneNumber"),
                                                        resultSet.getDate("birthday").toLocalDate(),
-                                                       resultSet.getString("password"));
+                                                       resultSet.getString("password"),
+                                                       resultSet.getBoolean("admin"));
                 newVolunteer.setVolunteerID(resultSet.getInt("VolunteerID"));
                 newVolunteer.setImageFile(new File(resultSet.getString("imageFile")));
                 

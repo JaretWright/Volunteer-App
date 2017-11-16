@@ -28,8 +28,9 @@ public class Volunteer {
     private File imageFile;
     private int volunteerID;
     private byte[] salt;
+    private boolean admin;
 
-    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, String password) throws NoSuchAlgorithmException {
+    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, String password, boolean admin) throws NoSuchAlgorithmException {
         setFirstName(firstName);
         setLastName(lastName);
         setPhoneNumber(phoneNumber);
@@ -37,15 +38,23 @@ public class Volunteer {
         setImageFile(new File("./src/images/defaultPerson.png"));
         salt = PasswordGenerator.getSalt();
         this.password = PasswordGenerator.getSHA512Password(password, salt);
-       
+        this.admin = admin;
     }
 
-    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, File imageFile, String password) throws IOException, NoSuchAlgorithmException {
-        this(firstName, lastName, phoneNumber, birthday, password);
+    public Volunteer(String firstName, String lastName, String phoneNumber, LocalDate birthday, File imageFile, boolean admin, String password) throws IOException, NoSuchAlgorithmException {
+        this(firstName, lastName, phoneNumber, birthday, password, admin);
         setImageFile(imageFile);
         copyImageFile();
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+    
     public String getPassword() {
         return password;
     }
@@ -243,8 +252,8 @@ public class Volunteer {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer", "student", "student");
             
             //2. Create a String that holds the query with ? as user inputs
-            String sql = "INSERT INTO volunteers (firstName, lastName, phoneNumber, birthday, imageFile, password, salt)"
-                    + "VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO volunteers (firstName, lastName, phoneNumber, birthday, imageFile, password, salt, admin)"
+                    + "VALUES (?,?,?,?,?,?,?,?)";
                     
             //3. prepare the query
             preparedStatement = conn.prepareStatement(sql);
@@ -260,6 +269,7 @@ public class Volunteer {
             preparedStatement.setString(5, imageFile.getName());
             preparedStatement.setString(6, password);
             preparedStatement.setBlob(7, new javax.sql.rowset.serial.SerialBlob(salt));
+            preparedStatement.setBoolean(8, admin);
             
             preparedStatement.executeUpdate();
         }

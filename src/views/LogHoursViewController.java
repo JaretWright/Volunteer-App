@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -28,6 +29,7 @@ public class LogHoursViewController implements Initializable, ControllerClass {
     @FXML    private Label firstNameLabel;
     @FXML    private Label lastNameLabel;
     @FXML    private Label errMsgLabel;
+    @FXML    private Button backButton;
 
     private Volunteer volunteer;
     
@@ -39,6 +41,10 @@ public class LogHoursViewController implements Initializable, ControllerClass {
         SpinnerValueFactory<Integer> valueFactory = 
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0,18,8);
         hoursWorkedSpinner.setValueFactory(valueFactory);
+        
+        //change the text on the button if it is not an administrative user
+        if (!SceneChanger.getLoggedInUser().isAdmin())
+            backButton.setText("Edit");
     }    
 
     @Override
@@ -76,7 +82,16 @@ public class LogHoursViewController implements Initializable, ControllerClass {
      */
     public void cancelButttonPushed(ActionEvent event) throws IOException
     {
+        //if this is an admin user, go back to the table of volunteers
         SceneChanger sc = new SceneChanger();
-        sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
+        
+        if (SceneChanger.getLoggedInUser().isAdmin())
+            sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
+        else
+        {
+            NewUserViewController controller = new NewUserViewController();
+            sc.changeScenes(event, "NewUserView.fxml", "Edit", volunteer, controller);
+        }
+            
     }
 }

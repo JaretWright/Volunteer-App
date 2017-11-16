@@ -15,6 +15,10 @@ import models.Volunteer;
  */
 public class SceneChanger {
     
+    private static Volunteer loggedInUser;
+
+    
+    
     /**
      * This method will accept the title of the new scene, the .fxml file name for
      * the view and the ActionEvent that triggered the change
@@ -56,5 +60,13 @@ public class SceneChanger {
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public static Volunteer getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(Volunteer loggedInUser) {
+        SceneChanger.loggedInUser = loggedInUser;
     }
 }
